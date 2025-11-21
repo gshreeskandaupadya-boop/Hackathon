@@ -1,0 +1,128 @@
+{
+  "name": "Smart Farm Profit Maximization Hub",
+  "short_name": "Smart Farm Hub",
+  "description": "AI-powered platform helping Indian farmers maximize seasonal profit with crop recommendations, government schemes, market prices, and expert advice.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#16a34a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": [
+    "agriculture",
+    "lifestyle",
+    "productivity"
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-narrow.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Smart Farm Hub Dashboard"
+    },
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Smart Farm Hub Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your crop dashboard and recommendations",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/dashboard-icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Crop Simulator",
+      "short_name": "Simulator",
+      "description": "Run what-if profit simulations",
+      "url": "/simulator",
+      "icons": [
+        {
+          "src": "/simulator-icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Market Prices",
+      "short_name": "Market",
+      "description": "Check current market prices and trends",
+      "url": "/market",
+      "icons": [
+        {
+          "src": "/market-icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Government Schemes",
+      "short_name": "Schemes",
+      "description": "Find eligible government schemes and subsidies",
+      "url": "/schemes",
+      "icons": [
+        {
+          "src": "/schemes-icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "files": [
+        {
+          "name": "media",
+          "accept": [
+            "image/*"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Green background -->
+  <rect width="512" height="512" fill="#16a34a"/>
+  
+  <!-- Plant/leaf symbol -->
+  <g transform="translate(256.0, 256.0)">
+    <!-- Leaf 1 (left) -->
+    <ellipse cx="-76.8" cy="-51.2" rx="61.44" ry="102.4" fill="#22c55e" transform="rotate(-30)"/>
+    
+    <!-- Leaf 2 (right) -->
+    <ellipse cx="76.8" cy="-51.2" rx="61.44" ry="102.4" fill="#86efac" transform="rotate(30)"/>
+    
+    <!-- Center stem -->
+    <rect x="-15.36" y="-128.0" width="30.72" height="179.2" fill="#22c55e" rx="15.36"/>
+    
+    <!-- Bottom leaf -->
+    <ellipse cy="76.8" rx="102.4" ry="76.8" fill="#16a34a"/>
+  </g>
+</svg>
