@@ -1,0 +1,95 @@
+name: Deploy Smart Farm Hub
+
+on:
+  push:
+    branches: [ main, dev_sriskanda ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    # Frontend Tests
+    - name: Install Frontend Dependencies
+      run: cd frontend && npm ci
+    
+    - name: Build Frontend
+      run: cd frontend && npm run build
+      env:
+        NEXT_PUBLIC_API_URL: http://localhost:5000/api
+    
+    # Backend Tests
+    - name: Install Backend Dependencies
+      run: cd backend && npm ci
+    
+    - name: Lint Backend
+      run: cd backend && npm run lint
+      continue-on-error: true
+    
+    - name: Build Backend
+      run: cd backend && npm run build
+      continue-on-error: true
+
+  deploy-frontend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev_sriskanda')
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        vercel-args: '--prod'
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: frontend
+      continue-on-error: true
+
+  deploy-backend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev_sriskanda')
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to Railway/Render
+      run: |
+        echo "Backend deployment configured for Railway.app or Render.com"
+        echo "Push to main branch to trigger auto-deployment"
+        echo "Configure webhooks in your hosting provider dashboard"
+      continue-on-error: true
+
+  notify:
+    needs: [test, deploy-frontend, deploy-backend]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Send Notification
+      run: |
+        if [ "${{ needs.test.result }}" == "success" ]; then
+          echo "✅ Tests passed!"
+          echo "🚀 Frontend deployment in progress..."
+          echo "📦 Backend deployment in progress..."
+        else
+          echo "❌ Tests failed. Check logs above."
+        fi

@@ -1,0 +1,34 @@
+{
+  "name": "star-d-backend",
+  "version": "1.0.0",
+  "description": "STAR-D (Smart Techniques for Agriculture & Rural Development) - Backend API",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "ts-node -r tsconfig-paths/register src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "seed": "ts-node src/seed.ts"
+  },
+  "keywords": ["agriculture", "farming", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "mongoose": "^8.0.0",
+    "jsonwebtoken": "9.0.2",
+    "bcryptjs": "^2.4.3",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/cors": "^2.8.17",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/bcryptjs": "^2.4.6",
+    "typescript": "^5.3.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
+  }
+}
