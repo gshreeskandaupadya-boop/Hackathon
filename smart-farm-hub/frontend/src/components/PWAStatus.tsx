@@ -77,7 +77,7 @@ export const PWAStatus = () => {
       {showInstallPrompt && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-sm mx-4 shadow-xl">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Install Smart Farm Hub</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Install STAR-D</h3>
             <p className="text-gray-600 text-sm mb-4">
               Install our app on your home screen for quick access and offline support.
             </p>

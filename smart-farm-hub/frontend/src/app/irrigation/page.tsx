@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
 import { weatherAPI, cropsAPI } from '@/lib/api';
 import { useAppStore } from '@/lib/store';
 
@@ -92,30 +91,42 @@ export default function IrrigationPage() {
     const loadData = async () => {
       try {
         setLoading(true);
+        setError(null);
         const cropsResponse = await cropsAPI.getAll();
-        setCrops(cropsResponse.data.items);
-        if (cropsResponse.data.items.length > 0) {
-          setSelectedCrop(cropsResponse.data.items[0].id);
+        const cropsData = cropsResponse.data.items || cropsResponse.data.crops || [];
+        setCrops(cropsData);
+        if (cropsData.length > 0) {
+          setSelectedCrop(cropsData[0].id);
         }
 
-        const weatherResponse = await weatherAPI.getCurrent();
-        setWeather(weatherResponse.data.item);
+        // Get weather data with state and district from farmer profile or defaults
+        const state = farmer?.state || 'Karnataka';
+        const district = farmer?.district || 'Bangalore';
+        const weatherResponse = await weatherAPI.getCurrent(state, district);
+        const weatherData = weatherResponse.data.item || weatherResponse.data || { temperature: 28, humidity: 65 };
+        setWeather(weatherData);
       } catch (err: any) {
-        setError(err.message);
+        console.error('Error loading irrigation data:', err);
+        setError(err.message || 'Failed to load data');
+        // Use default values if API fails
+        setCrops([{ id: '1', name: 'Rice' }]);
+        setSelectedCrop('1');
+        setWeather({ temperature: 28, humidity: 65, rainfall: 0 });
       } finally {
         setLoading(false);
       }
     };
     loadData();
-  }, []);
+  }, [farmer, language]);
 
   const generateSchedule = async () => {
     if (!selectedCrop) return;
 
     try {
       setLoading(true);
+      setError(null);
       const response = await cropsAPI.getById(selectedCrop);
-      const crop = response.data.item;
+      const crop = response.data.item || response.data.crops?.[0] || { name: 'Selected Crop' };
 
       const months = [
         'January', 'February', 'March', 'April', 'May', 'June',
@@ -153,7 +164,6 @@ export default function IrrigationPage() {
   if (loading && crops.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
         <div className="flex items-center justify-center h-96">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
         </div>
@@ -163,7 +173,6 @@ export default function IrrigationPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">

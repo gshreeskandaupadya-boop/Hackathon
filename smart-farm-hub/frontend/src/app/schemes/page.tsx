@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
 import { schemeAPI } from '@/lib/api';
 import { useAppStore } from '@/lib/store';
 
@@ -21,17 +20,18 @@ export default function SchemesPage() {
   const [error, setError] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [missedBenefits, setMissedBenefits] = useState<any>(null);
-  const { language } = useAppStore();
+  const { language, farmer } = useAppStore();
 
   useEffect(() => {
     const loadSchemes = async () => {
       try {
         setLoading(true);
-        const response = await schemeAPI.getEligible();
+        const farmerId = farmer?.id || 'demo-farmer';
+        const response = await schemeAPI.getEligible(farmerId);
         setSchemes(response.data.schemes);
 
         // Load missed benefits
-        const missedRes = await schemeAPI.getMissedBenefits();
+        const missedRes = await schemeAPI.getMissedBenefits(farmerId);
         setMissedBenefits(missedRes.data.missedBenefits);
       } catch (err: any) {
         setError(err.message || 'Failed to load schemes');
@@ -45,7 +45,7 @@ export default function SchemesPage() {
 
   const handleApply = async (schemeId: string) => {
     try {
-      await schemeAPI.apply(schemeId);
+      await schemeAPI.apply(schemeId, {});
       alert('Application submitted successfully!');
     } catch (err: any) {
       alert('Failed to submit application: ' + err.message);
@@ -62,8 +62,6 @@ export default function SchemesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-12">

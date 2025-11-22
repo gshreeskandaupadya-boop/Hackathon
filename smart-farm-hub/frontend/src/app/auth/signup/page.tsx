@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Navigation from '@/components/Navigation';
 import { authAPI } from '@/lib/api';
 import { useAppStore } from '@/lib/store';
 
@@ -116,10 +115,10 @@ export default function SignupPage() {
   const pageTitle = language === 'en' ? 'Create Account' : language === 'ka' ? 'ಖಾತೆ ರಚಿಸಿ' : 'खाता बनाएँ';
   const subtitle =
     language === 'en'
-      ? 'Join Smart Farm Hub today'
+      ? 'Join STAR-D today'
       : language === 'ka'
-      ? 'ಇಂದು ಸ್ಮಾರ್ಟ್ ಫಾರ್ಮ್ ಹಬ್‌ಗೆ ಸೇರಿ'
-      : 'आज ही स्मार्ट फार्म हब में शामिल हों';
+      ? 'ಇಂದು STAR-D ಗೆ ಸೇರಿ'
+      : 'आज ही STAR-D में शामिल हों';
 
   const indianStates = [
     'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
@@ -132,8 +131,6 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50">
-      <Navigation />
-
       <div className="flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           {/* Card */}

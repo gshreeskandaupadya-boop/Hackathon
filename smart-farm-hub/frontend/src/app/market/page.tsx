@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
 import { marketAPI } from '@/lib/api';
 import { useAppStore } from '@/lib/store';
 
@@ -30,11 +29,11 @@ export default function MarketPage() {
     const loadPrices = async () => {
       try {
         setLoading(true);
-        const response = await marketAPI.getPrices({ crop: selectedCrop });
+        const response = await marketAPI.getPrices(selectedCrop);
         setPrices(response.data.prices);
 
         // Load prediction
-        const predRes = await marketAPI.predictPrice({ crop: selectedCrop, days: 14 });
+        const predRes = await marketAPI.predictPrice(selectedCrop, 14);
         setPrediction(predRes.data.prediction);
       } catch (err: any) {
         setError(err.message || 'Failed to load market data');
@@ -68,8 +67,6 @@ export default function MarketPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-12">

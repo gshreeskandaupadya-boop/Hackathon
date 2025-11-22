@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
 import { cropsAPI } from '@/lib/api';
 import { useAppStore } from '@/lib/store';
 
@@ -132,27 +131,34 @@ export default function FinancePage() {
     const loadCrops = async () => {
       try {
         setLoading(true);
+        setError(null);
         const response = await cropsAPI.getAll();
-        setCrops(response.data.items);
-        if (response.data.items.length > 0) {
-          setSelectedCrop(response.data.items[0].id);
+        const cropsData = response.data.items || response.data.crops || [];
+        setCrops(cropsData);
+        if (cropsData.length > 0) {
+          setSelectedCrop(cropsData[0].id);
         }
       } catch (err: any) {
-        setError(err.message);
+        console.error('Error loading crops:', err);
+        setError(err.message || 'Failed to load crops');
+        // Use default crop if API fails
+        setCrops([{ id: '1', name: 'Rice' }]);
+        setSelectedCrop('1');
       } finally {
         setLoading(false);
       }
     };
     loadCrops();
-  }, []);
+  }, [language]);
 
   const handleCalculate = async () => {
     if (!selectedCrop) return;
 
     try {
       setLoading(true);
+      setError(null);
       const response = await cropsAPI.getById(selectedCrop);
-      const crop = response.data.item;
+      const crop = response.data.item || response.data.crops?.[0] || { name: 'Selected Crop', costOfCultivation: 30000, yield: 50, marketPrice: 2500 };
 
       // Calculate costs per hectare
       const costPerHectare = crop.costOfCultivation || 30000;
@@ -196,7 +202,8 @@ export default function FinancePage() {
         profitAfterLoan,
       });
     } catch (err: any) {
-      setError(err.message);
+      console.error('Error calculating returns:', err);
+      setError(err.message || 'Failed to calculate returns');
     } finally {
       setLoading(false);
     }
@@ -205,7 +212,6 @@ export default function FinancePage() {
   if (loading && crops.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
         <div className="flex items-center justify-center h-96">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
         </div>
@@ -215,7 +221,6 @@ export default function FinancePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">

@@ -1,7 +1,7 @@
 {
-  "name": "smart-farm-hub-frontend",
+  "name": "star-d-frontend",
   "version": "1.0.0",
-  "description": "Smart Farm Profit Maximization Hub - Frontend",
+  "description": "STAR-D (Smart Techniques for Agriculture & Rural Development) - Frontend",
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -1,7 +1,7 @@
 {
-  "name": "smart-farm-hub-backend",
+  "name": "star-d-backend",
   "version": "1.0.0",
-  "description": "Smart Farm Profit Maximization Hub - Backend API",
+  "description": "STAR-D (Smart Techniques for Agriculture & Rural Development) - Backend API",
   "main": "src/server.ts",
   "scripts": {
     "dev": "ts-node -r tsconfig-paths/register src/server.ts",

@@ -7,18 +7,35 @@ import { healthCheck } from '@/lib/api';
 import { PWAStatus } from '@/components/PWAStatus';
 
 export default function Home() {
-  const [status, setStatus] = useState('Checking backend...');
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     const checkBackend = async () => {
       try {
         const response = await healthCheck();
-        setStatus('✅ Backend Connected!');
+        setNotificationMessage('✅ Backend Connected!');
         setIsConnected(true);
+        setShowNotification(true);
+        
+        // Hide notification after 10 seconds
+        const timer = setTimeout(() => {
+          setShowNotification(false);
+        }, 10000);
+        
+        return () => clearTimeout(timer);
       } catch (error) {
-        setStatus('❌ Backend Not Connected');
+        setNotificationMessage('❌ Backend Not Connected');
         setIsConnected(false);
+        setShowNotification(true);
+        
+        // Hide notification after 10 seconds
+        const timer = setTimeout(() => {
+          setShowNotification(false);
+        }, 10000);
+        
+        return () => clearTimeout(timer);
       }
     };
 
@@ -29,22 +46,16 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-green-50">
       <PWAStatus />
       
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-green-600">🌾 Smart Farm Hub</h1>
-            <nav className="flex gap-4">
-              <Link href="/dashboard" className="text-gray-700 hover:text-green-600">
-                Dashboard
-              </Link>
-              <Link href="/auth/login" className="text-gray-700 hover:text-green-600">
-                Login
-              </Link>
-            </nav>
-          </div>
+      {/* Toast Notification */}
+      {showNotification && (
+        <div className={`fixed top-20 right-4 px-6 py-4 rounded-lg shadow-lg text-white font-semibold flex items-center gap-2 transition-opacity duration-300 z-50 ${
+          isConnected 
+            ? 'bg-green-600' 
+            : 'bg-red-600'
+        }`}>
+          <span className="text-lg">{notificationMessage}</span>
         </div>
-      </header>
+      )}
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -52,24 +63,11 @@ export default function Home() {
           {/* Hero Section */}
           <div className="space-y-4">
             <h2 className="text-5xl font-bold text-gray-900">
-              Maximize Your Farming Profit
+              Smart Techniques for Agriculture & Rural Development (STAR-D)
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Make smarter decisions with real-time crop recommendations, market prices, 
               government schemes, and weather alerts—all in one intelligent platform.
-            </p>
-          </div>
-
-          {/* Status */}
-          <div className={`p-6 rounded-lg border-2 ${
-            isConnected 
-              ? 'bg-green-50 border-green-200' 
-              : 'bg-red-50 border-red-200'
-          }`}>
-            <p className={`text-lg font-semibold ${
-              isConnected ? 'text-green-800' : 'text-red-800'
-            }`}>
-              {status}
             </p>
           </div>
 
@@ -121,7 +119,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>Built with 💚 for Indian Farmers | Smart Farm Hub 2024</p>
+          <p>Built with 💚 for Indian Farmers | STAR-D 2025</p>
         </div>
       </footer>
     </div>

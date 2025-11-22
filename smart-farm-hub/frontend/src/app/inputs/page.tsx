@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
 import { cropsAPI } from '@/lib/api';
 import { useAppStore } from '@/lib/store';
 
@@ -85,13 +84,19 @@ export default function InputsPage() {
     const loadCrops = async () => {
       try {
         setLoading(true);
+        setError(null);
         const response = await cropsAPI.getAll();
-        setCrops(response.data.items);
-        if (response.data.items.length > 0) {
-          setSelectedCrop(response.data.items[0].id);
+        const cropsData = response.data.items || response.data.crops || [];
+        setCrops(cropsData);
+        if (cropsData.length > 0) {
+          setSelectedCrop(cropsData[0].id);
         }
       } catch (err: any) {
-        setError(err.message);
+        console.error('Error loading crops:', err);
+        setError(err.message || 'Failed to load crops');
+        // Set default crop if API fails
+        setCrops([{ id: '1', name: 'Rice' }]);
+        setSelectedCrop('1');
       } finally {
         setLoading(false);
       }
@@ -104,10 +109,13 @@ export default function InputsPage() {
 
     try {
       setLoading(true);
-      const response = await cropsAPI.getById(selectedCrop);
-      const crop = response.data.item;
+      setError(null);
+      
+      // Get crop details
+      const cropResponse = await cropsAPI.getById(selectedCrop);
+      const crop = cropResponse.data.item || cropResponse.data.crops?.[0] || { name: 'Selected Crop' };
 
-      // Calculate optimized inputs (simulated)
+      // Calculate optimized inputs
       const optimizedCost = currentCost * 0.75; // 25% reduction
       const savings = currentCost - optimizedCost;
 
@@ -139,7 +147,7 @@ export default function InputsPage() {
       ];
 
       setResults({
-        crop: crop.name,
+        crop: crop.name || 'Selected Crop',
         currentCost,
         optimizedCost,
         savings,
@@ -147,7 +155,8 @@ export default function InputsPage() {
         recommendations,
       });
     } catch (err: any) {
-      setError(err.message);
+      console.error('Error optimizing inputs:', err);
+      setError(err.message || 'Failed to optimize inputs');
     } finally {
       setLoading(false);
     }
@@ -156,7 +165,6 @@ export default function InputsPage() {
   if (loading && crops.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
         <div className="flex items-center justify-center h-96">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
         </div>
@@ -166,7 +174,6 @@ export default function InputsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">

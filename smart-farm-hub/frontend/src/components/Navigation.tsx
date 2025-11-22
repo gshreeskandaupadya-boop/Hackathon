@@ -6,6 +6,7 @@ import { useAppStore } from '@/lib/store';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const { language, setLanguage, farmer, clearFarmer } = useAppStore();
 
   const navItems = [
@@ -24,55 +25,86 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className="bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg">
+      {/* Main Navigation Bar */}
+      <div className="w-full px-2 sm:px-4">
+        <div className="flex justify-between items-center h-16 gap-2">
+          {/* Logo - Left */}
+          <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-              <span className="text-green-600 font-bold">🌾</span>
+              <span className="text-green-600 font-bold text-sm">🌾</span>
             </div>
-            <span className="font-bold text-lg hidden sm:inline">SmartFarm</span>
+            <span className="font-bold text-base sm:text-lg hidden sm:inline whitespace-nowrap">STAR-d</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-6">
+          {/* Desktop Navigation Links - Center */}
+          <div className="hidden lg:flex space-x-1 flex-1 justify-center overflow-x-auto scrollbar-hide">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="hover:bg-green-700 px-3 py-2 rounded transition-colors"
+                className="hover:bg-green-700 px-2 xl:px-3 py-2 rounded text-xs xl:text-sm transition-colors whitespace-nowrap flex-shrink-0"
               >
                 {item.label}
               </Link>
             ))}
           </div>
 
-          {/* Right side - Language selector and Auth */}
-          <div className="flex items-center space-x-4">
-            {/* Language Selector */}
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as 'en' | 'ka' | 'hi')}
-              className="bg-green-700 text-white px-3 py-2 rounded text-sm font-medium border border-green-500 hover:bg-green-800 transition-colors"
-            >
-              <option value="en">English</option>
-              <option value="ka">ಕನ್ನಡ</option>
-              <option value="hi">हिंदी</option>
-            </select>
+          {/* Right side - Language and Auth */}
+          <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0 ml-auto">
+            {/* Language Selector Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className="bg-green-700 text-white px-2 sm:px-3 py-2 rounded text-xs sm:text-sm font-medium border border-green-500 hover:bg-green-800 transition-colors whitespace-nowrap"
+              >
+                {language === 'en' ? '🌐 EN' : language === 'ka' ? '🌐 KA' : '🌐 HI'}
+              </button>
+              {isLangOpen && (
+                <div className="absolute right-0 mt-2 w-32 bg-white text-gray-800 rounded shadow-lg z-50">
+                  <button
+                    onClick={() => {
+                      setLanguage('en');
+                      setIsLangOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 hover:bg-green-100 text-sm"
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLanguage('ka');
+                      setIsLangOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 hover:bg-green-100 text-sm"
+                  >
+                    ಕನ್ನಡ
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLanguage('hi');
+                      setIsLangOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 hover:bg-green-100 text-sm"
+                  >
+                    हिंदी
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Auth Buttons */}
             {!farmer ? (
               <Link
                 href="/auth/login"
-                className="bg-white text-green-600 px-4 py-2 rounded font-medium hover:bg-gray-100 transition-colors"
+                className="bg-white text-green-600 px-2 sm:px-4 py-2 rounded text-xs sm:text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap"
               >
                 {language === 'en' ? 'Login' : language === 'ka' ? 'ಲಾಗಿನ್' : 'लॉगिन'}
               </Link>
             ) : (
               <button
                 onClick={() => clearFarmer()}
-                className="bg-red-500 text-white px-4 py-2 rounded font-medium hover:bg-red-600 transition-colors"
+                className="bg-red-500 text-white px-2 sm:px-4 py-2 rounded text-xs sm:text-sm font-medium hover:bg-red-600 transition-colors whitespace-nowrap"
               >
                 {language === 'en' ? 'Logout' : language === 'ka' ? 'ಲಾಗೌಟ್' : 'लॉगआउट'}
               </button>
@@ -81,10 +113,10 @@ export default function Navigation() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden bg-green-700 p-2 rounded hover:bg-green-800 transition-colors"
+              className="lg:hidden bg-green-700 p-2 rounded hover:bg-green-800 transition-colors flex-shrink-0"
             >
               <svg
-                className="w-6 h-6"
+                className="w-5 h-5 sm:w-6 sm:h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -100,14 +132,14 @@ export default function Navigation() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation Menu */}
         {isMenuOpen && (
-          <div className="md:hidden pb-4 space-y-2">
+          <div className="lg:hidden pb-4 space-y-1 max-h-96 overflow-y-auto">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="block hover:bg-green-700 px-3 py-2 rounded transition-colors"
+                className="block hover:bg-green-700 px-3 py-2 rounded transition-colors text-sm"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}

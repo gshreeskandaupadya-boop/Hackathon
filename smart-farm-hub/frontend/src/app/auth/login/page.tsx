@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Navigation from '@/components/Navigation';
 import { authAPI } from '@/lib/api';
 import { useAppStore } from '@/lib/store';
 import { useAppStore as store } from '@/lib/store';
@@ -66,15 +65,13 @@ export default function LoginPage() {
   const pageTitle = language === 'en' ? 'Login' : language === 'ka' ? 'ಲಾಗಿನ್' : 'लॉगिन';
   const subtitle =
     language === 'en'
-      ? 'Welcome back to Smart Farm Hub'
+      ? 'Welcome back to STAR-D'
       : language === 'ka'
-      ? 'ಸ್ಮಾರ್ಟ್ ಫಾರ್ಮ್ ಹಬ್‌ಗೆ ಮರುಳಿ ಸ್ವಾಗತ'
-      : 'स्मार्ट फार्म हब में वापस स्वागत है';
+      ? 'STAR-D ಗೆ ಮರುಳಿ ಸ್ವಾಗತ'
+      : 'STAR-D में वापस स्वागत है';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50">
-      <Navigation />
-
       <div className="flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           {/* Card */}

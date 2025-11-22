@@ -1,8 +1,8 @@
-# 🌾 Smart Farm Profit Maximization Hub
+# 🌾 STAR-D - Smart Techniques for Agriculture & Rural Development
 
-An AI-powered platform that helps Indian farmers maximize seasonal profit by centralizing crop recommendations, government schemes, market prices, soil data, weather forecasts, and pest alerts.
+An AI-powered platform that helps Indian farmers with data-driven insights for crop recommendations, government schemes, market intelligence, financial planning, and rural development.
 
-**Status:** 🚀 **Development** | **Team:** Smart Farm Hub | **Hackathon:** Accelerate 2024
+**Status:** 🚀 **Development** | **Team:** STAR-D | **Hackathon:** Accelerate 2024
 
 ---
 

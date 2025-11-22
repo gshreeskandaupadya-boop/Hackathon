@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Navigation from '@/components/Navigation';
 import { chatAPI } from '@/lib/api';
 import { useAppStore } from '@/lib/store';
 
@@ -123,7 +122,6 @@ export default function ChatPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navigation />
       <div className="flex-1 flex flex-col max-w-4xl w-full mx-auto px-4 py-8">
         {/* Header */}
         {messages.length === 0 && (

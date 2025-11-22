@@ -1,7 +1,7 @@
 {
-  "name": "Smart Farm Profit Maximization Hub",
-  "short_name": "Smart Farm Hub",
-  "description": "AI-powered platform helping Indian farmers maximize seasonal profit with crop recommendations, government schemes, market prices, and expert advice.",
+  "name": "STAR-D - Smart Techniques for Agriculture & Rural Development",
+  "short_name": "STAR-D",
+  "description": "AI-powered platform helping Indian farmers with crop recommendations, government schemes, market intelligence, financial planning, and rural development.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
