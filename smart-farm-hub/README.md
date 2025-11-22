@@ -2,7 +2,7 @@
 
 An AI-powered platform that helps Indian farmers with data-driven insights for crop recommendations, government schemes, market intelligence, financial planning, and rural development.
 
-**Status:** 🚀 **Development** | **Team:** STAR-D | **Hackathon:** Xcelerate 2025
+**Status:** 🚀 **Development** | **Team:** InnoavatedotAI | **Hackathon:** Xcelerate 2025
 
 ---
 
